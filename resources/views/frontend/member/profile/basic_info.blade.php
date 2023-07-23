@@ -90,7 +90,14 @@
 
             <div class="form-group row">
                 <div class="col-md-12">
-                    <label for="photo">{{ translate('Photo') }} <small>(800x800)</small>
+                    @if (auth()->user()->photo == null)
+                        <div class="my-1">
+                            <div class="img border border-1 d-inline-block">
+                                <img class="" id="thumb-preview" src="{{ uploaded_asset(auth()->user()->photo) }}" alt="user-photo" width="60" onerror="this.onerror=null;this.src='{{ static_asset('assets/img/avatar-place.png') }}';">
+                            </div>
+                        </div>
+                    @endif
+                    <label for="photo">Profile Photo<small>(800x800)</small>
                         @if (auth()->user()->photo != null && auth()->user()->photo_approved == 0)
                             <small class="text-danger">({{ translate('Pending for Admin Approval.') }})</small>
                         @elseif(auth()->user()->photo != null && auth()->user()->photo_approved == 1)

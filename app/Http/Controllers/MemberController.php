@@ -236,19 +236,14 @@ class MemberController extends Controller {
     public function basic_info_update(Request $request, $id) {
         $this->rules = [
             'user_id'    => ['required', 'max:255'],
-            // 'gender'        => ['required'],
-            // 'date_of_birth' => ['required'],
             'on_behalf'     => ['required'],
             'marital_status' => ['required'],
         ];
+        
         $this->messages = [
             'user_id.required'             => translate('User ID is required'),
-            'gender.required'                 => translate('Gender is required'),
-            'date_of_birth.required'          => translate('Date Of Birth is required'),
             'on_behalf.required'              => translate('On Behalf is required'),
             'marital_status.required'         => translate('Marital Status is required'),
-
-
         ];
 
         $rules = $this->rules;
@@ -259,12 +254,8 @@ class MemberController extends Controller {
             flash(translate('Something went wrong'))->error();
             return Redirect::back()->withErrors($validator);
         }
-        if ($request->email == null) {
-            flash(translate('Email can not be null. '))->error();
-            return back();
-        }
 
-        $user               = User::findOrFail($request->id);
+        $user            = User::findOrFail($request->id);
         $user->user_id   = $request->user_id;
 
         if (get_setting('profile_picture_approval_by_admin') && $request->photo != $user->photo && auth()->user()->user_type == 'member') {

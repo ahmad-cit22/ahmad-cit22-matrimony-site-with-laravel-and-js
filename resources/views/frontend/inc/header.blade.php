@@ -128,7 +128,7 @@
                                 </div>
                             </li>
                             <li class="list-inline-item mx-4">
-                                <a href="{{ route('dashboard') }}" class="d-flex align-items-center text-reset">
+                                <a href="{{ route('profile_settings') }}" class="d-flex align-items-center text-reset">
                                     <img src="{{ uploaded_asset(Auth::user()->photo) }}" class="size-30px rounded-circle img-fit mr-2" onerror="this.onerror=null;this.src='{{ static_asset('assets/img/avatar-place.png') }}';">
                                     <span class="opacity-60 mr-1">
                                         {{ translate('Hi') }},
