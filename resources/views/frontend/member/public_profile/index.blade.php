@@ -1648,14 +1648,14 @@
 
                             @if ($gallery_image_privacy == 'only_me')
                                 @php$gallery_image_show = false;
-                                                                                                                                                                                    $profile_picture_show = false;
-                                                                                                                                                                                    $gallery_view_request = \App\Models\ViewGalleryImage::where('user_id', $user->id)
-                                                                                                                                                                                        ->where('requested_by', $auth_user->id)
-                                                                                                                                                                                        ->first();
-                                                                                                                                                                                    if ($gallery_view_request != null && $gallery_view_request->status == 1) {
-                                                                                                                                                                                        $gallery_image_show = true;
-                                                                                                                                                                                    }
-                                                                                                                                                                @endphp ?> ?> ?> ?>
+                                                                                                                                                                                                                        $profile_picture_show = false;
+                                                                                                                                                                                                                        $gallery_view_request = \App\Models\ViewGalleryImage::where('user_id', $user->id)
+                                                                                                                                                                                                                            ->where('requested_by', $auth_user->id)
+                                                                                                                                                                                                                            ->first();
+                                                                                                                                                                                                                        if ($gallery_view_request != null && $gallery_view_request->status == 1) {
+                                                                                                                                                                                                                            $gallery_image_show = true;
+                                                                                                                                                                                                                        }
+                                                                                                                                                                                                @endphp ?> ?> ?> ?> ?>
                             @elseif($gallery_image_privacy == 'premium_members')
                                 @if ($auth_user->membership == 1)
                                     @php $gallery_image_show = false; @endphp
@@ -1787,7 +1787,7 @@
                         $("#confirm_modal_title").html("{{ translate('Confirm Contact View') }}");
                         $("#confirm_modal_content").html("<p class='fs-14'>{{ translate('Remaining Contact View') }}: " +
                             remaining_contact_view +
-                            " {{ translate('Times') }}</p><small class='text-danger'>{{ translate('**N.B. Viewing This Members Contact Information Will Cost  1 From Your Remaining Contact View**') }}</small>"
+                            " {{ translate('Times') }}</p><p class='text-danger'>{{ translate('**N.B. Viewing This Members Contact Information Will Cost  1 From Your Remaining Contact View**') }}</p>"
                         );
                         $("#confirm_button").attr("onclick", "do_contact_view(" + id + ")");
                     }
@@ -1832,7 +1832,7 @@
                         $("#confirm_modal_title").html("{{ translate('Confirm Express Interest!') }}");
                         $("#confirm_modal_content").html("<p class='fs-14'>{{ translate('Remaining Express Interest') }}: " +
                             remaining_interest +
-                            " {{ translate('Times') }}</p class='fs-12'><small class='text-danger'>{{ translate('**N.B. Expressing An Interest Will Cost 1 From Your Remaining Interests**') }}</small>"
+                            " {{ translate('Times') }}</p class='fs-12'><p class='text-danger'>{{ translate('**N.B. Expressing An Interest Will Cost 1 From Your Remaining Interests**') }}</p>"
                         );
                         $("#confirm_button").attr("onclick", "do_express_interest(" + id + ")");
                     }
@@ -1945,7 +1945,7 @@
                 $("#confirm_modal_title").html("{{ translate('Profile Picture View') }}");
                 $("#confirm_modal_content").html("<p class='fs-14'>{{ translate('Remaining Profile Picture View') }}: " +
                     remaining_profile_image_view +
-                    " {{ translate('Times') }}</p><small class='text-danger'>{{ translate('**N.B. Requesting to See This Member Profile Picture Will Cost  1 From Your Remaining Profile Picture View**') }}</small>"
+                    " {{ translate('Times') }}</p><p class='text-danger'>{{ translate('**N.B. Requesting to See This Member Profile Picture Will Cost  1 From Your Remaining Profile Picture View**') }}</p>"
                 );
                 $("#confirm_button").attr("onclick", "send_profile_pic_view_request(" + id + ")");
             }
@@ -1978,7 +1978,7 @@
                 $("#confirm_modal_title").html("{{ translate('Gallery Image View') }}");
                 $("#confirm_modal_content").html("<p class='fs-14'>{{ translate('Remaining Gallery Image View') }}: " +
                     remaining_gallery_image_view +
-                    " {{ translate('Times') }}</p><small class='text-danger'>{{ translate('**N.B. Requesting to See This Member Gallery Image Will Cost  1 From Your Remaining Gallery Image View**') }}</small>"
+                    " {{ translate('Times') }}</p><p class='text-danger'>{{ translate('**N.B. Requesting to See This Member Gallery Image Will Cost  1 From Your Remaining Gallery Image View**') }}</p>"
                 );
                 $("#confirm_button").attr("onclick", "send_gallery_image_view_request(" + id + ")");
             }
