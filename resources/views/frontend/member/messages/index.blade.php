@@ -37,7 +37,7 @@
                                             @endif
                                         </span>
                                         <div class="media-body minw-0">
-                                            <h6 class="mt-0 mb-1 fs-14 text-truncate">{{ $single_chat_thread->$user_to_show->first_name . ' ' . $single_chat_thread->$user_to_show->last_name }}</h6>
+                                            <h6 class="mt-0 mb-1 fs-14 text-truncate">{{ $single_chat_thread->$user_to_show->user_id }}</h6>
                                             @if ($single_chat_thread->chats->last() != null)
                                                 @if ($single_chat_thread->chats->last()->message != null)
                                                     <div class="fs-12 text-truncate opacity-60">{{ $single_chat_thread->chats->last()->message }}</div>

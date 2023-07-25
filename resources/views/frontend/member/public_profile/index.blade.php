@@ -1647,15 +1647,15 @@
                             @endphp
 
                             @if ($gallery_image_privacy == 'only_me')
-                                @php$gallery_image_show = false;
-                                                                                                                                                                                                                        $profile_picture_show = false;
-                                                                                                                                                                                                                        $gallery_view_request = \App\Models\ViewGalleryImage::where('user_id', $user->id)
-                                                                                                                                                                                                                            ->where('requested_by', $auth_user->id)
-                                                                                                                                                                                                                            ->first();
-                                                                                                                                                                                                                        if ($gallery_view_request != null && $gallery_view_request->status == 1) {
-                                                                                                                                                                                                                            $gallery_image_show = true;
-                                                                                                                                                                                                                        }
-                                                                                                                                                                                                @endphp ?> ?> ?> ?> ?>
+                                @php $gallery_image_show = false;
+                                                                        $profile_picture_show = false;
+                                                                        $gallery_view_request = \App\Models\ViewGalleryImage::where('user_id', $user->id)
+                                                                            ->where('requested_by', $auth_user->id)
+                                                                            ->first();
+                                                                        if ($gallery_view_request != null && $gallery_view_request->status == 1) {
+                                                                            $gallery_image_show = true;
+                                                                        }
+                                                                @endphp ?> ?> ?> ?> ?> ?>
                             @elseif($gallery_image_privacy == 'premium_members')
                                 @if ($auth_user->membership == 1)
                                     @php $gallery_image_show = false; @endphp

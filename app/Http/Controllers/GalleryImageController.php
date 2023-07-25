@@ -46,7 +46,7 @@ class GalleryImageController extends Controller {
    */
   public function store(Request $request) {
 
-    if (!$request->hasFile('gallery_image')) {
+    if (empty($request->gallery_image)) {
       flash(translate('You must select an image to upload.'))->error();
       return back();
     }

@@ -205,7 +205,7 @@
 
                 <!-- search  -->
                 @if (Auth::check() && Auth::user()->user_type == 'member')
-                    <div class="p-4 bg-white rounded-top border-bottom" style="box-shadow: 0 -25px 50px -12px rgb(0 0 0 / 25%);">
+                    <div class="mb-4 p-4 bg-white rounded-top border-bottom" style="box-shadow: 0 -25px 50px -12px rgb(0 0 0 / 25%);">
                         <div class="row">
                             <div class="col-xl-10 mx-auto">
                                 <form action="{{ route('member.listing') }}" method="get">
@@ -465,6 +465,9 @@
                 <div class="aiz-carousel" data-items="4" data-xl-items="3" data-md-items="2" data-sm-items="1" data-dots='true' data-infinite='true' data-autoplay='true'>
                     @foreach (\App\Models\Package::where('active', '1')->get() as $key => $package)
                         <div class="carousel-box">
+                            @if ($package->is_popular == 1)
+                                <img src="{{ asset('public/assets/img/popular_badge.png') }}" alt="popular_badge" class="popular-badge" width="100px">
+                            @endif
                             <div class="overflow-hidden shadow-none mb-3 border-right">
                                 <div class="card-body">
                                     <div class="text-center mb-4 mt-3">
