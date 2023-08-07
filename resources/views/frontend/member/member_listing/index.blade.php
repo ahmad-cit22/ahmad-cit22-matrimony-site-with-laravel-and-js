@@ -40,9 +40,11 @@
                                                 @endif
                                             </span>
                                             <div class="px-md-4 p-3 flex-grow-1">
-
-                                                <h2 class="h6 fw-600 fs-18 text-truncate mb-1">
-                                                    {{ $user->user_id }}</h2>
+                                                <div class="col-9 p-0">
+                                                    <h5>{{ $user->profile_title }}</h5>
+                                                </div>
+                                                <h5 class="h6 fw-600 fs-18 text-truncate mb-1">
+                                                    User ID: {{ $user->user_id }}</h5>
                                                 <div class="mb-2 fs-12">
                                                     <span class="opacity-60">{{ translate('Member ID: ') }}</span>
                                                     <span class="ml-4 text-primary">{{ $user->code }}</span>
@@ -53,7 +55,7 @@
                                                             <span>{{ translate('Age') }}</span>
                                                         </td>
                                                         <td class="py-1 w-25 fw-400">
-                                                            {{ \Carbon\Carbon::parse($user->member->birthday)->age }}</td>
+                                                            {{ !empty($user->member->birthday) ? \Carbon\Carbon::parse($user->member->birthday)->age : 'Not Entered' }}</td>
                                                         <td class="py-1 w-25"><span>{{ translate('Height') }}</span></td>
                                                         <td class="py-1 w-25 fw-400">
                                                             @if (!empty($user->physical_attributes->height))

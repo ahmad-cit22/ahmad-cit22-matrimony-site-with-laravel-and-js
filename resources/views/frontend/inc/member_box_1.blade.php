@@ -15,17 +15,16 @@
             <div class="absolute-full d-flex justify-content-center align-items-center bg-soft-dark text-white"><i class="las la-lock la-3x"></i></div>
         @endif
 
-        <div class="absolute-bottom-left w-100 p-3 z-1">
+        <div class="absolute-bottom-left w-100 pt-2 pb-1 z-1">
             <div class="absolute-full bg-white opacity-90 z--1"></div>
             <div class="text-center">
                 {{-- <div class="text-primary fw-500 mb-1">{{ $member->first_name}}</div> --}}
+                <div class="fs-7">
+                    <span class="ml-2 mb-1 text-primary">{{ $member->profile_title ? $member->profile_title : $member->user_id }}</span>
+                </div>
                 <div class="fs-10">
                     <span class="opacity-60">{{ translate('User ID: ') }}</span>
                     <span class="ml-2 text-primary">{{ $member->user_id }}</span>
-                </div>
-                <div class="fs-10">
-                    <span class="opacity-60">{{ translate('Member ID: ') }}</span>
-                    <span class="ml-2 text-primary">{{ $member->code }}</span>
                 </div>
             </div>
         </div>

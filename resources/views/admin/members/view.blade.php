@@ -72,7 +72,7 @@
                             </td>
 
                             <th>{{ translate('Date Of Birth') }}</th>
-                            <td>{{ !empty($member->member->birthday) ? date('Y-m-d', strtotime($member->member->birthday)) : '' }}</td>
+                            <td>{{ !empty($member->member->birthday) ? date('Y-m-d', strtotime($member->member->birthday)) : 'Not Entered' }}</td>
                         </tr>
                         <tr>
                             <th>{{ translate('Email') }}</th>

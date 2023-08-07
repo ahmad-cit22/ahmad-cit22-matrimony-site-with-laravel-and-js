@@ -1,21 +1,20 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use App\Models\Religion;
 use Redirect;
 use Validator;
 
-class ReligionController extends Controller
-{
-    public function __construct()
-    {
+class ReligionController extends Controller {
+    public function __construct() {
         $this->middleware(['permission:show_religions'])->only('index');
         $this->middleware(['permission:edit_religion'])->only('edit');
         $this->middleware(['permission:delete_religion'])->only('destroy');
 
         $this->rules = [
-            'name' => ['required','max:255'],
+            'name' => ['required', 'max:255'],
         ];
 
         $this->messages = [
@@ -28,16 +27,15 @@ class ReligionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {
+    public function index(Request $request) {
         $sort_search  = null;
-        $religions    = Religion::latest();
-        if ($request->has('search')){
+        $religions    = Religion::oldest();
+        if ($request->has('search')) {
             $sort_search  = $request->search;
-            $religions    = $religions->where('name', 'like', '%'.$sort_search.'%');
+            $religions    = $religions->where('name', 'like', '%' . $sort_search . '%');
         }
         $religions = $religions->paginate(10);
-        return view('admin.member_profile_attributes.religions.index', compact('religions','sort_search'));
+        return view('admin.member_profile_attributes.religions.index', compact('religions', 'sort_search'));
     }
 
     /**
@@ -45,8 +43,7 @@ class ReligionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create() {
         //
     }
 
@@ -56,8 +53,7 @@ class ReligionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $rules      = $this->rules;
         $messages   = $this->messages;
         $validator  = Validator::make($request->all(), $rules, $messages);
@@ -69,14 +65,13 @@ class ReligionController extends Controller
 
         $religion       = new Religion;
         $religion->name = $request->name;
-        if($religion->save()){
+        if ($religion->save()) {
             flash(translate('New religion has been added successfully'))->success();
             return redirect()->route('religions.index');
         } else {
             flash(translate('Sorry! Something went wrong.'))->error();
             return back();
         }
-
     }
 
     /**
@@ -85,8 +80,7 @@ class ReligionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
+    public function show($id) {
         //
     }
 
@@ -96,10 +90,9 @@ class ReligionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
+    public function edit($id) {
         $religion = Religion::findOrFail(decrypt($id));
-        return view('admin.member_profile_attributes.religions.edit',compact('religion'));
+        return view('admin.member_profile_attributes.religions.edit', compact('religion'));
     }
 
     /**
@@ -109,8 +102,7 @@ class ReligionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id) {
         $rules      = $this->rules;
         $messages   = $this->messages;
         $validator  = Validator::make($request->all(), $rules, $messages);
@@ -122,7 +114,7 @@ class ReligionController extends Controller
 
         $religion       = Religion::findOrFail($id);
         $religion->name = $request->name;
-        if($religion->save()){
+        if ($religion->save()) {
             flash(translate('Religion info has been updated successfully'))->success();
             return redirect()->route('religions.index');
         } else {
@@ -137,8 +129,7 @@ class ReligionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
+    public function destroy($id) {
         $religion = Religion::findOrFail($id);
         foreach ($religion->castes as $key => $caste) {
             foreach ($caste->sub_castes as $key => $sub_caste) {

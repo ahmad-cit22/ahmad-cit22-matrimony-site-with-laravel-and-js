@@ -285,7 +285,7 @@
         $('#reg-submit-btn').click(function() {
             Swal.fire({
                 title: 'Are you sure?',
-                text: "Please note that except user ID, all the informations for client registration and client profile is “absolutely OPTIONAL”. Please submit your information ONLY if you are comfortable in SHARING information with other users.",
+                text: "Please note that except user ID, email & password, all the informations for client registration and client profile is “absolutely OPTIONAL”. Please submit your information ONLY if you are comfortable in SHARING the informations with other users.",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#6032de',

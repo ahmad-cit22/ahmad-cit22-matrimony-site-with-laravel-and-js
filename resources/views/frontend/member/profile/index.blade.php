@@ -1,6 +1,41 @@
 @extends('frontend.layouts.member_panel')
 @section('panel_content')
     @php $member = \App\User::find(Auth::user()->id); @endphp
+
+    <!-- profile caption Change -->
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0 h6">{{ translate('Set your profile caption') }}</h5>
+        </div>
+        <div class="card-body">
+            <form action="{{ route('user.change.profile_title', $member->member->user_id) }}" method="POST">
+                @csrf
+                <div class="row">
+                    <div class="col-md-2">
+                        <label>{{ translate('Your Profile Caption') }}</label>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="{{ translate('Example: BANGLADESHI CANADIAN BRIDE/GROOM-30- NEVER MARRIED – 5’6’’: PATIENT, CONFIDENT') }}" name="profile_title" value="{{ Auth::user()->profile_title }}" />
+                            <div class="input-group-append">
+                                {{-- <button type="button" class="btn btn-primary new-email-verification">
+                                    <span class="d-none loading">
+                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                        {{ translate('Sending Email...') }}
+                                    </span>
+                                    <span class="default">{{ translate('Verify') }}</span>
+                                </button> --}}
+                            </div>
+                        </div>
+                        <div class="form-group mb-0 text-right">
+                            <button type="submit" class="btn btn-sm btn-primary">{{ translate('Update') }}</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div class="card">
         <div class="card-header">
             <h5 class="mb-0 h6">{{ translate('Introduction') }}</h5>
@@ -166,6 +201,16 @@
 
 @section('script')
     <script type="text/javascript">
+        Swal.fire({
+            text: "Please note that except user ID, email & password, all the informations for client registration and client profile is “absolutely OPTIONAL”. Please submit your information ONLY if you are comfortable in SHARING the informations with other users.",
+            icon: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#6032de',
+            confirmButtonText: 'OK, got it!'
+        }).then((result) => {
+            if (result.isConfirmed) {}
+        });
+
         $(document).ready(function() {
             get_states_by_country_for_present_address();
             get_cities_by_state_for_present_address();

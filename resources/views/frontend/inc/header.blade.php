@@ -2,7 +2,7 @@
     <div class="top-navbar bg-white border-bottom z-1035 py-2 d-none d-lg-block">
         <div class="container">
             <div class="row align-items-center">
-                <div class="col-lg-5 col">
+                <div class="col-xl-4 col-12">
                     <ul class="list-inline d-flex justify-content-between justify-content-lg-start mb-0">
                         <li class="list-inline-item">
                             <a href="{{ get_setting('header_left_quick_link1') }}" class="text-reset opacity-60">
@@ -11,7 +11,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="col-lg-7 col">
+                <div class="col-xl-8 col-12">
                     <ul class="list-inline mb-0 d-flex align-items-center justify-content-end ">
                         @auth
                             <li class="list-inline-item mr-3 pr-3 border-right text-reset opacity-60">

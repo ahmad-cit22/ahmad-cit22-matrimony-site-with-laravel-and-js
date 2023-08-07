@@ -19,6 +19,7 @@ use App\Models\ProfileMatch;
 use App\Models\TeamMember;
 use Hash;
 use Artisan;
+use Carbon\Carbon;
 
 class HomeController extends Controller {
     /**
@@ -42,6 +43,10 @@ class HomeController extends Controller {
             ->where('blocked', 0)
             ->where('deactivated', 0);
 
+        $premium_members = Member::where('current_package_id', '!=', 1)
+            ->where('package_validity', '>', Carbon::now()->format('Y-m-d'))
+            ->where('gender', '!=', Auth::user()->member->gender);
+
         if (Auth::user() && Auth::user()->user_type == 'member') {
             $members = $members->where('id', '!=', Auth::user()->id)
                 ->whereIn("id", function ($query) {
@@ -53,19 +58,21 @@ class HomeController extends Controller {
             $ignored_to = IgnoredUser::where('ignored_by', Auth::user()->id)->pluck('user_id')->toArray();
             if (count($ignored_to) > 0) {
                 $members = $members->whereNotIn('id', $ignored_to);
+                $premium_members = $premium_members->whereNotIn('user_id', $ignored_to);
             }
 
             $ignored_by_ids = IgnoredUser::where('user_id', Auth::user()->id)->pluck('ignored_by')->toArray();
             if (count($ignored_by_ids) > 0) {
                 $members = $members->whereNotIn('id', $ignored_by_ids);
+                $premium_members = $premium_members->whereNotIn('user_id', $ignored_by_ids);
             }
         }
 
-        $premium_members = $members;
+        $premium_members = $premium_members;
         $new_members = $members;
 
         $new_members = $new_members->orderBy('id', 'desc')->limit(get_setting('max_new_member_show_homepage'))->get()->shuffle();
-        $premium_members = $premium_members->where('membership', 2)->inRandomOrder()->limit(get_setting('max_premium_member_homepage'))->get();
+        $premium_members = $premium_members->orderBy('current_package_id', 'ASC')->limit(get_setting('max_premium_member_homepage'))->get();
 
 
         return view('frontend.index', compact('premium_members', 'new_members'));
@@ -175,6 +182,8 @@ class HomeController extends Controller {
             ->where('id', '!=', Auth::user()->id)
             ->where('blocked', 0)
             ->where('deactivated', 0);
+
+        // return $users;
 
         // Gender Check
         $user_ids = Member::where('gender', '!=', Auth::user()->member->gender)->pluck('user_id')->toArray();
@@ -361,6 +370,18 @@ class HomeController extends Controller {
     }
 
     // Form request
+    public function update_profile_title(Request $request, $id) {
+
+        $profile_title = $request->profile_title;
+        $user = User::find($id);
+
+        $user->profile_title = $request->input('profile_title');
+        $user->save();
+
+        flash(translate('Profile Title Updated Successfully'))->success();
+        return back();
+    }
+
     public function update_email(Request $request, $id) {
 
         $email = $request->email;

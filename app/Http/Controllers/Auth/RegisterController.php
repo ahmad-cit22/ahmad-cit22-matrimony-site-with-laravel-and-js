@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use Notification;
 use App\Notifications\DbStoreNotification;
 use App\Utility\EmailUtility;
+use Carbon\Carbon;
 use Kutia\Larafirebase\Facades\Larafirebase;
 
 class RegisterController extends Controller {
@@ -63,6 +64,7 @@ class RegisterController extends Controller {
     protected function validator(array $data) {
         return Validator::make($data, [
             'user_id'  => ['required', 'string', 'max:255'],
+            'email'  => ['required', 'email', 'max:255'],
             'password'    => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -74,7 +76,7 @@ class RegisterController extends Controller {
      * @return \App\User
      */
     protected function create(array $data) {
-        // return $data['user_id'];
+        // return $data['date_of_birth'];
         $approval = get_setting('member_approval_by_admin') == 1 ? 0 : 1;
         if (filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
             $user = User::create([
@@ -115,7 +117,13 @@ class RegisterController extends Controller {
 
         $member->gender                     = $data['gender'];
         $member->on_behalves_id             = $data['on_behalf'];
-        $member->birthday                   = date('Y-m-d', strtotime($data['date_of_birth']));
+        if ($data['date_of_birth']) {
+            $member->birthday                   = date('Y-m-d', strtotime($data['date_of_birth']));
+        } else {
+            $member->birthday                   = null;
+        }
+
+        // $member->birthday                   = Carbon::parse($data['date_of_birth'])->format('Y-m-d');
 
         $package                                = Package::where('id', 1)->first();
         $member->current_package_id             = $package->id;
@@ -146,7 +154,7 @@ class RegisterController extends Controller {
     }
 
     public function register(Request $request) {
-
+        // return $request->date_of_birth;
         if (filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
             if (User::where('email', $request->email)->first() != null) {
                 flash(translate('Email or Phone already exists.'));

@@ -6,8 +6,9 @@
                 <div class="col-xl-8 offset-xl-4">
                     <div class="px-3 row align-items-center">
                         <div class="col-md-8 col-xxl-9">
-                            <h1 class="fs-24 fw-600">
-                                {{ $user->user_id }}
+                            <h4>{{ $user->profile_title }}</h4>
+                            <h6 class="fs-20 fw-600">
+                                User ID: {{ $user->user_id }}
                                 @php
                                     $present_address = \App\Models\Address::where('user_id', $user->id)
                                         ->where('type', 'present')
@@ -23,7 +24,7 @@
                                         }
                                     @endphp
                                 </span>
-                            </h1>
+                            </h6>
                             <div class="fs-12">
                                 <span class="opacity-60">{{ translate('Member ID: ') }}</span>
                                 <span class="ml-2">{{ $user->code }}</span>
@@ -33,7 +34,7 @@
                                 <tbody>
                                     <tr>
                                         <td width="50%">
-                                            {{ !empty($user->member->birthday) ? \Carbon\Carbon::parse($user->member->birthday)->age : '' }}
+                                            {{ !empty($user->member->birthday) ? \Carbon\Carbon::parse($user->member->birthday)->age : 'Not Entered' }}
                                             {{ translate('yrs') }}
                                             {{ !empty($user->physical_attributes->height) ? ', ' . $user->physical_attributes->height : '' }}
                                         </td>
@@ -88,12 +89,22 @@
                                         href="{{ route('interest_requests') }}" @endif class="btn btn-block text-white">
                                         <i class="la la-heart-o la-2x border rounded-circle p-2 border-width-2 mb-2"></i>
                                         <span id="interest_id_{{ $user->id }}" class="d-block fs-13 {{ $interest_class }}">
-                                            {{ $interest_text }}
+                                            {{ $interest_text }} <br>
+                                            @if ($interest_text == 'You Accepted Interest' || $interest_text == 'Interest Accepted')
+                                                <a class="btn btn-light btn-sm text-primary" href="{{ route('all.messages') }}">Send Message</a>
+                                            @else
+                                                <a class="btn btn-light btn-sm btn-disabled text-primary" href="#" aria-disabled="true" title="To send message, you have to express interest to this user & wait for his/her acceptance or you have to accept his/her interest request.">Can't Send Message</a>
+                                            @endif
                                         </span>
                                     </a>
                                 </div>
                             @endif
                         </div>
+                        {{-- @if ($received_expressed_interest->status || $do_expressed_interest->status)
+                            message
+                        @else
+                            no
+                        @endif --}}
                     </div>
                     <div class="mt-4">
                         <div class="nav nav-tabs aiz-nav-tabs bottom-bordered active-white border-0">
@@ -432,7 +443,7 @@
                                                             <tr>
                                                                 <td class="py-1 fw-600">{{ translate('Age') }}</td>
                                                                 <td class="py-1">
-                                                                    {{ !empty($user->member->birthday) ? \Carbon\Carbon::parse($user->member->birthday)->age : '' }}
+                                                                    {{ !empty($user->member->birthday) ? \Carbon\Carbon::parse($user->member->birthday)->age : 'Not Entered' }}
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -473,7 +484,7 @@
                                                                 <td class="py-1 fw-600">{{ translate('Date of Birth') }}
                                                                 </td>
                                                                 <td class="py-1">
-                                                                    {{ !empty($user->member->birthday) ? date('d/m/Y', strtotime($user->member->birthday)) : '' }}
+                                                                    {{ !empty($user->member->birthday) ? date('d/m/Y', strtotime($user->member->birthday)) : 'Not Entered' }}
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -1647,15 +1658,16 @@
                             @endphp
 
                             @if ($gallery_image_privacy == 'only_me')
-                                @php $gallery_image_show = false;
-                                                                        $profile_picture_show = false;
-                                                                        $gallery_view_request = \App\Models\ViewGalleryImage::where('user_id', $user->id)
-                                                                            ->where('requested_by', $auth_user->id)
-                                                                            ->first();
-                                                                        if ($gallery_view_request != null && $gallery_view_request->status == 1) {
-                                                                            $gallery_image_show = true;
-                                                                        }
-                                                                @endphp ?> ?> ?> ?> ?> ?>
+                                @php
+                                    $gallery_image_show = false;
+                                    $profile_picture_show = false;
+                                    $gallery_view_request = \App\Models\ViewGalleryImage::where('user_id', $user->id)
+                                        ->where('requested_by', $auth_user->id)
+                                        ->first();
+                                    if ($gallery_view_request != null && $gallery_view_request->status == 1) {
+                                        $gallery_image_show = true;
+                                    }
+                                @endphp ?> ?> ?> ?> ?> ?> ?> ?> ?> ?> ?> ?> ?> ?> ?> ?> ?> ?> ?> ?> ?>
                             @elseif($gallery_image_privacy == 'premium_members')
                                 @if ($auth_user->membership == 1)
                                     @php $gallery_image_show = false; @endphp

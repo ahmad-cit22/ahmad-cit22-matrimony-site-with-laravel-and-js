@@ -1,4 +1,12 @@
 @extends('admin.layouts.app')
+@section('style')
+    <style>
+        .btn-approve {
+            font-size: 11px !important;
+            padding: 3px 10px !important;
+        }
+    </style>
+@endsection
 @section('content')
     <div class="aiz-titlebar mt-2 mb-4">
         <div class="row align-items-center">
@@ -68,6 +76,18 @@
                                             @else
                                                 <span class="badge badge-inline badge-pending">{{ translate('Pending') }}</span>
                                             @endif
+                                            @can('block_member')
+                                                @if ($member->blocked == 0)
+                                                    <a class="btn btn-primary btn-approve fs-6" onclick="block_member({{ $member->id }})" href="javascript:void(0);">{{ translate('Block') }}</a>
+                                                @elseif($member->blocked == 1)
+                                                    <a class="btn btn-primary btn-approve fs-6" onclick="unblock_member({{ $member->id }})" href="javascript:void(0);">{{ translate('Unblock') }}</a>
+                                                @endif
+                                            @endcan
+                                            @can('approve_member')
+                                                @if ($member->approved == 0)
+                                                    <a class="btn btn-primary btn-approve fs-6" onclick="approve_member({{ $member->id }})" href="javascript:void(0);">{{ translate('Approve') }}</a>
+                                                @endif
+                                            @endcan
                                         </td>
                                     @endif
                                     <td>

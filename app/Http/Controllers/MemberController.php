@@ -82,7 +82,7 @@ class MemberController extends Controller {
 
         if ($request->has('search')) {
             $sort_search  = $request->search;
-            $members  = $members->where('code', $sort_search)->orwhere('user_id', 'like', '%' . $sort_search . '%')->orWhere('last_name', 'like', '%' . $sort_search . '%');
+            $members  = $members->where('code', $sort_search)->orwhere('user_id', 'like', '%' . $sort_search . '%');
         }
 
         $members = $members->paginate(10);
@@ -239,7 +239,7 @@ class MemberController extends Controller {
             'on_behalf'     => ['required'],
             'marital_status' => ['required'],
         ];
-        
+
         $this->messages = [
             'user_id.required'             => translate('User ID is required'),
             'on_behalf.required'              => translate('On Behalf is required'),
@@ -322,7 +322,7 @@ class MemberController extends Controller {
         $deleted_members    = User::onlyTrashed()->where('permanently_delete', 0);
         if ($request->has('search')) {
             $sort_search  = $request->search;
-            $deleted_members  = $deleted_members->where('code', $sort_search)->orwhere('user_id', 'like', '%' . $sort_search . '%')->orWhere('last_name', 'like', '%' . $sort_search . '%');
+            $deleted_members  = $deleted_members->where('code', $sort_search)->orwhere('user_id', 'like', '%' . $sort_search . '%');
         }
         $deleted_members = $deleted_members->paginate(10);
         return view('admin.members.deleted_members', compact('deleted_members', 'sort_search'));

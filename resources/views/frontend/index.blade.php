@@ -279,7 +279,7 @@
                 <div class="aiz-carousel gutters-10 half-outside-arrow" data-items="5" data-xl-items="4" data-lg-items="4" data-md-items="3" data-sm-items="2" data-xs-items="1" data-dots='true' data-infinite='true'>
                     @foreach ($premium_members as $key => $member)
                         <div class="carousel-box">
-                            @include('frontend.inc.member_box_1', ['member' => $member])
+                            @include('frontend.inc.member_box_1', ['member' => $member->user])
                         </div>
                     @endforeach
                 </div>
@@ -740,7 +740,7 @@
         $('#reg-submit-btn').click(function() {
             Swal.fire({
                 title: 'Are you sure?',
-                text: "Please note that except user ID, all the informations for client registration and client profile is “absolutely OPTIONAL”. Please submit your information ONLY if you are comfortable in SHARING information with other users.",
+                text: "Please note that except user ID, email & password, all the informations for client registration and client profile is “absolutely OPTIONAL”. Please submit your information ONLY if you are comfortable in SHARING the informations with other users.",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#6032de',

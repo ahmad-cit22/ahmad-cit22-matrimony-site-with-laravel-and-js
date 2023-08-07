@@ -16,15 +16,13 @@ use Auth;
 use DB;
 use Kutia\Larafirebase\Facades\Larafirebase;
 
-class ExpressInterestController extends Controller
-{
+class ExpressInterestController extends Controller {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index() {
         $interests = DB::table('express_interests')
             ->orderBy('id', 'desc')
             ->where('interested_by', Auth::user()->id)
@@ -36,8 +34,7 @@ class ExpressInterestController extends Controller
         return view('frontend.member.my_interests', compact('interests'));
     }
 
-    public function interest_requests()
-    {
+    public function interest_requests() {
         $interests = ExpressInterest::where('user_id', Auth::user()->id)->latest()->paginate(10);
         return view('frontend.member.interest_requests', compact('interests'));
     }
@@ -47,8 +44,7 @@ class ExpressInterestController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create() {
         //
     }
 
@@ -58,8 +54,7 @@ class ExpressInterestController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $interested_by_user = Auth::user();
         $interested_by_member = $interested_by_user->member;
         if ($interested_by_member->remaining_interest > 0) {
@@ -121,64 +116,70 @@ class ExpressInterestController extends Controller
         }
     }
 
-    public function accept_interest(Request $request)
-    {
+    public function accept_interest(Request $request) {
         $interest = ExpressInterest::findOrFail($request->interest_id);
-        $interest->status = 1;
-        if ($interest->save()) {
-            $existing_chat_thread = ChatThread::where('sender_user_id', $interest->interested_by)->where('receiver_user_id', $interest->user_id)->first();
-            if ($existing_chat_thread == null) {
-                $chat_thread                    = new ChatThread;
-                $chat_thread->thread_code       = $interest->interested_by . date('Ymd') . $interest->user_id;
-                $chat_thread->sender_user_id    = $interest->interested_by;
-                $chat_thread->receiver_user_id  = $interest->user_id;
-                $chat_thread->save();
-            }
+        $interested_to_id = $interest->user_id;
+        $member_interested_to = Member::where('user_id', $interested_to_id)->first();
 
-            $notify_user = User::where('id', $interest->interested_by)->first();
-
-            // Express Interest Store Notification for member
-            try {
-                $notify_type = 'accept_interest';
-                $id = unique_notify_id();
-                $notify_by = Auth::user()->id;
-                $info_id = $interest->id;
-                $message = Auth::user()->user_id . ' ' . translate(' has accepted your interest.');
-                $route = route('my_interests.index');
-
-                // fcm 
-                if (get_setting('firebase_push_notification') == 1) {
-                    $fcmTokens = User::where('id', $interest->interested_by)->whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
-                    Larafirebase::withTitle($notify_type)
-                        ->withBody($message)
-                        ->sendMessage($fcmTokens);
+        if ($member_interested_to->current_package_id != 1) {
+            $interest->status = 1;
+            if ($interest->save()) {
+                $existing_chat_thread = ChatThread::where('sender_user_id', $interest->interested_by)->where('receiver_user_id', $interest->user_id)->first();
+                if ($existing_chat_thread == null) {
+                    $chat_thread                    = new ChatThread;
+                    $chat_thread->thread_code       = $interest->interested_by . date('Ymd') . $interest->user_id;
+                    $chat_thread->sender_user_id    = $interest->interested_by;
+                    $chat_thread->receiver_user_id  = $interest->user_id;
+                    $chat_thread->save();
                 }
-                // end of fcm
 
-                Notification::send($notify_user, new DbStoreNotification($notify_type, $id, $notify_by, $info_id, $message, $route));
-            } catch (\Exception $e) {
-                // dd($e);
-            }
+                $notify_user = User::where('id', $interest->interested_by)->first();
 
-            // Express Interest email send to member
-            if ($notify_user->email != null && get_email_template('email_on_accepting_interest', 'status')) {
-                EmailUtility::email_on_accept_request($notify_user, 'email_on_accepting_interest');
-            }
+                // Express Interest Store Notification for member
+                try {
+                    $notify_type = 'accept_interest';
+                    $id = unique_notify_id();
+                    $notify_by = Auth::user()->id;
+                    $info_id = $interest->id;
+                    $message = Auth::user()->user_id . ' ' . translate(' has accepted your interest.');
+                    $route = route('my_interests.index');
 
-            // Express Interest Send SMS to member
-            if ($notify_user->phone != null && addon_activation('otp_system') && (get_sms_template('accept_interest', 'status') == 1)) {
-                SmsUtility::sms_on_accept_request($notify_user, 'accept_interest');
+                    // fcm 
+                    if (get_setting('firebase_push_notification') == 1) {
+                        $fcmTokens = User::where('id', $interest->interested_by)->whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
+                        Larafirebase::withTitle($notify_type)
+                            ->withBody($message)
+                            ->sendMessage($fcmTokens);
+                    }
+                    // end of fcm
+
+                    Notification::send($notify_user, new DbStoreNotification($notify_type, $id, $notify_by, $info_id, $message, $route));
+                } catch (\Exception $e) {
+                    // dd($e);
+                }
+
+                // Express Interest email send to member
+                if ($notify_user->email != null && get_email_template('email_on_accepting_interest', 'status')) {
+                    EmailUtility::email_on_accept_request($notify_user, 'email_on_accepting_interest');
+                }
+
+                // Express Interest Send SMS to member
+                if ($notify_user->phone != null && addon_activation('otp_system') && (get_sms_template('accept_interest', 'status') == 1)) {
+                    SmsUtility::sms_on_accept_request($notify_user, 'accept_interest');
+                }
+                flash(translate('Interest has been accepted successfully.'))->success();
+                return redirect()->route('interest_requests');
+            } else {
+                flash(translate('Sorry! Something went wrong.'))->error();
+                return back();
             }
-            flash(translate('Interest has been accepted successfully.'))->success();
-            return redirect()->route('interest_requests');
         } else {
-            flash(translate('Sorry! Something went wrong.'))->error();
-            return back();
+            flash(translate('Sorry! You have to upgrade your package to accept expressed interest.'))->success();
+            return redirect()->route('packages');
         }
     }
 
-    public function reject_interest(Request $request)
-    {
+    public function reject_interest(Request $request) {
         $interest = ExpressInterest::findOrFail($request->interest_id);
 
         if (ExpressInterest::destroy($request->interest_id)) {
@@ -220,8 +221,7 @@ class ExpressInterestController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
+    public function show($id) {
         //
     }
 
@@ -231,8 +231,7 @@ class ExpressInterestController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
+    public function edit($id) {
         //
     }
 
@@ -243,8 +242,7 @@ class ExpressInterestController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id) {
         //
     }
 
@@ -254,8 +252,7 @@ class ExpressInterestController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
+    public function destroy($id) {
         //
     }
 }

@@ -77,6 +77,7 @@ Route::group(['middleware' => ['member']], function () {
 
     Route::get('/dashboard', 'HomeController@dashboard')->name('dashboard');
     Route::post('/new-user-email/{id}', 'HomeController@update_email')->name('user.change.email');
+    Route::post('/new-user-profile-title/{id}', 'HomeController@update_profile_title')->name('user.change.profile_title');
     Route::post('/new-user-verification', 'HomeController@new_verify')->name('user.new.verify');
 
     Route::get('/profile-settings', 'MemberController@profile_settings')->name('profile_settings');

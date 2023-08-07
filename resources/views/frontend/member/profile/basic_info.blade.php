@@ -9,7 +9,6 @@
             <div class="form-group row">
                 <div class="col-12">
                     <label for="first_name">{{ translate('User ID') }}
-                        <span class="text-danger">*</span>
                     </label>
                     <input type="text" name="user_id" value="{{ $member->user_id }}" class="form-control" placeholder="{{ translate('First Name') }}" required>
                     @error('user_id')
@@ -21,7 +20,6 @@
             <div class="form-group row">
                 <div class="col-md-6">
                     <label for="first_name">{{ translate('Gender') }}
-                        <span class="text-danger">*</span>
                     </label>
                     <select class="form-control aiz-selectpicker" name="gender" required>
                         <option value="1" @if ($member->member->gender == 1) selected @endif>{{ translate('Male') }}</option>
@@ -33,7 +31,6 @@
                 </div>
                 <div class="col-md-6">
                     <label for="first_name">{{ translate('Date Of Birth') }}
-                        <span class="text-danger">*</span>
                     </label>
                     <input type="text" class="aiz-date-range form-control" name="date_of_birth" value="@if (!empty($member->member->birthday)) {{ date('Y-m-d', strtotime($member->member->birthday)) }} @endif" placeholder="Select Date" data-single="true" data-show-dropdown="true" data-max-date="{{ get_max_date() }}" autocomplete="off" required>
                     @error('date_of_birth')
@@ -45,7 +42,6 @@
             <div class="form-group row">
                 <div class="col-md-6">
                     <label for="first_name">{{ translate('Phone Number') }}
-                        <span class="text-danger">*</span>
                     </label>
                     <input type="text" name="phone" value="{{ $member->phone }}" class="form-control" placeholder="{{ translate('Phone') }}">
                     @error('phone')
@@ -54,7 +50,6 @@
                 </div>
                 <div class="col-md-6">
                     <label for="first_name">{{ translate('On Behalf') }}
-                        <span class="text-danger">*</span>
                     </label>
                     <select class="form-control aiz-selectpicker" name="on_behalf" data-live-search="true" required>
                         @foreach ($on_behalves as $on_behalf)
@@ -69,7 +64,6 @@
             <div class="form-group row">
                 <div class="col-md-6">
                     <label for="first_name">{{ translate('Marital  Status') }}
-                        <span class="text-danger">*</span>
                     </label>
                     <select class="form-control aiz-selectpicker" name="marital_status" data-live-search="true" required>
                         @foreach ($marital_statuses as $marital_status)
@@ -82,7 +76,6 @@
                 </div>
                 <div class="col-md-6">
                     <label for="first_name">{{ translate('Number Of Children') }}
-                        <span class="text-danger">*</span>
                     </label>
                     <input type="text" name="children" value="{{ $member->member->children }}" class="form-control" placeholder="{{ translate('Number Of Children') }}">
                 </div>
