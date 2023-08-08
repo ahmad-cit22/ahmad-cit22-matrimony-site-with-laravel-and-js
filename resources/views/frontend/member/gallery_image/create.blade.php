@@ -22,6 +22,13 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-9">
+                        <p>(Accepted Image Formats: <span class="text-primary">JPG, JPEG, PNG</span>)</p>
+                        <p>(**To upload files, click on 'browse/choose file', then select an image from previously uploaded image )</p>
+                    </div>
+                </div>
                 <div class="form-group row text-right">
                     <div class="col-md-11">
                         <button type="button" class="btn btn-primary" onclick="image_upload_warning()">{{ translate('Confirm') }}</button>

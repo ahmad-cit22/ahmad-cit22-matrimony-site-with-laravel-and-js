@@ -70,22 +70,23 @@
                                     @if (get_setting('member_approval_by_admin') == 1)
                                         <td>
                                             @if ($member->blocked == 1)
-                                                <span class="badge badge-inline badge-danger">{{ translate('Blocked') }}</span>
+                                                <span class="badge badge-inline badge-danger mb-1">{{ translate('Blocked') }}</span>
                                             @elseif($member->approved == 1)
-                                                <span class="badge badge-inline badge-success">{{ translate('Approved') }}</span>
+                                                <span class="badge badge-inline badge-success mb-1">{{ translate('Approved') }}</span>
                                             @else
-                                                <span class="badge badge-inline badge-pending">{{ translate('Pending') }}</span>
+                                                <span class="badge badge-inline badge-pending mb-1">{{ translate('Pending') }}</span>
                                             @endif
+                                            <br>
                                             @can('block_member')
                                                 @if ($member->blocked == 0)
-                                                    <a class="btn btn-primary btn-approve fs-6" onclick="block_member({{ $member->id }})" href="javascript:void(0);">{{ translate('Block') }}</a>
+                                                    <a class="btn btn-primary btn-approve statusBtn mb-1 fs-6" onclick="block_member({{ $member->id }})" href="javascript:void(0);">{{ translate('Block') }}</a>
                                                 @elseif($member->blocked == 1)
-                                                    <a class="btn btn-primary btn-approve fs-6" onclick="unblock_member({{ $member->id }})" href="javascript:void(0);">{{ translate('Unblock') }}</a>
+                                                    <a class="btn btn-primary btn-approve statusBtn mb-1 fs-6" onclick="unblock_member({{ $member->id }})" href="javascript:void(0);">{{ translate('Unblock') }}</a>
                                                 @endif
                                             @endcan
                                             @can('approve_member')
                                                 @if ($member->approved == 0)
-                                                    <a class="btn btn-primary btn-approve fs-6" onclick="approve_member({{ $member->id }})" href="javascript:void(0);">{{ translate('Approve') }}</a>
+                                                    <br><a class="btn btn-primary btn-approve statusBtn mb-1 fs-6" onclick="approve_member({{ $member->id }})" href="javascript:void(0);">{{ translate('Approve') }}</a>
                                                 @endif
                                             @endcan
                                         </td>
