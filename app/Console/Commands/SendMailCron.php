@@ -2,6 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\Models\EmailTemplate;
+use App\Models\Member;
+use App\Utility\EmailUtility;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 
 class SendMailCron extends Command {
@@ -35,5 +39,22 @@ class SendMailCron extends Command {
      */
     public function handle() {
         \Log::info("Cron is working fine!");
+
+        $members = Member::where('package_validity', '>', Carbon::now()->format('Y-m-d'))->get();
+
+        foreach ($members as $member) {;
+            $package_validity = Carbon::parse($member->package_validity);
+            $currentDate = Carbon::now()->format('Y-m-d');
+
+
+            $days_left = $package_validity->diffInDays($currentDate);
+
+            if ($member->user->email != null  && env('MAIL_USERNAME') != null) {
+                $package_expiring_warning_email = EmailTemplate::where('identifier', 'package_expiring_warning_email')->first();
+                if ($package_expiring_warning_email->status == 1) {
+                    EmailUtility::package_expiring_warning_email($member->user->id, $days_left);
+                }
+            }
+        }
     }
 }
