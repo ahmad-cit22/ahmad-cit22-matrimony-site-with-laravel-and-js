@@ -58,7 +58,7 @@ Route::get('/social-login/{provider}/callback', 'Auth\LoginController@handleProv
 Route::get('/users/blocked', 'HomeController@user_account_blocked')->name('user.blocked');
 
 Route::post('/language', 'LanguageController@changeLanguage')->name('language.change');
-Route::post('/currency', 'CurrencyController@changeCurrency')->name('currency.change'); 
+Route::post('/currency', 'CurrencyController@changeCurrency')->name('currency.change');
 
 //how we work
 Route::get('/how-we-work', 'HomeController@how_we_work')->name('how.we.work');
@@ -232,3 +232,4 @@ Route::post('/dashboard/our-team/member-add', [TeamMemberController::class, 'mem
 Route::get('/dashboard/our-team/member-edit/{id}', [TeamMemberController::class, 'member_edit_page'])->name('admin.edit.member');
 Route::post('/dashboard/our-team/member-update/', [TeamMemberController::class, 'member_update'])->name('admin.member.update');
 Route::get('/dashboard/our-team/member-delete/{id}', [TeamMemberController::class, 'member_delete'])->name('admin.member.delete');
+

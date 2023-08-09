@@ -9,7 +9,7 @@ use App\User;
 use Auth;
 
 class EmailUtility {
-    public static function account_oppening_email($user_id = '', $pass = '') {
+    public static function account_oppening_email($user_id = '') {
         $user           = User::where('id', $user_id)->first();
         $subject        = get_email_template('account_oppening_email', 'subject');
         $account_type   = $user->membership == 1 ? 'Free' : 'Premium';
@@ -18,7 +18,6 @@ class EmailUtility {
         $email_body     = str_replace('[[sitename]]', get_setting('website_name'), $email_body);
         $email_body     = str_replace('[[account_type]]', $account_type, $email_body);
         $email_body     = str_replace('[[email]]', $user->email, $email_body);
-        $email_body     = str_replace('[[password]]', $pass, $email_body);
         $email_body     = str_replace('[[url]]', env('APP_URL'), $email_body);
         $email_body     = str_replace('[[from]]', env('MAIL_FROM_NAME'), $email_body);
 
@@ -88,6 +87,22 @@ class EmailUtility {
         $email_body = str_replace('[[payment_code]]', $package_payment->payment_code, $email_body);
         $email_body = str_replace('[[package]]', $package_name, $email_body);
         $email_body = str_replace('[[amount]]', $package_payment->amount, $email_body);
+        $email_body = str_replace('[[from]]', env('MAIL_FROM_NAME'), $email_body);
+
+        try {
+            Notification::send($user, new EmailNotification($subject, $email_body));
+        } catch (\Exception $e) {
+            // dd($e);
+        }
+    }
+
+    public static function package_expiring_warning_email($user_id = '', $days_left = '') {
+        $user           = User::where('id', $user_id)->first();
+        $subject    = get_email_template('package_expiring_warning_email', 'subject');
+        $email_body = get_email_template('package_expiring_warning_email', 'body');
+        $email_body = str_replace('[[user_id]]', $user->user_id, $email_body);
+        $email_body = str_replace('[[days]]', $days_left, $email_body);
+        $email_body = str_replace('[[url]]', env('APP_URL'), $email_body);
         $email_body = str_replace('[[from]]', env('MAIL_FROM_NAME'), $email_body);
 
         try {

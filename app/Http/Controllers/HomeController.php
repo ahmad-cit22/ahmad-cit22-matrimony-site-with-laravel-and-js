@@ -13,10 +13,12 @@ use App\Models\PhysicalAttribute;
 use App\Models\SpiritualBackground;
 use App\Models\Career;
 use App\Models\Address;
+use App\Models\EmailTemplate;
 use App\Models\HappyStory;
 use App\Models\IgnoredUser;
 use App\Models\ProfileMatch;
 use App\Models\TeamMember;
+use App\Utility\EmailUtility;
 use Hash;
 use Artisan;
 use Carbon\Carbon;
@@ -37,6 +39,30 @@ class HomeController extends Controller {
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index() {
+
+        // $members = Member::where('package_validity', '>', Carbon::now()->format('Y-m-d'))->get();
+        // $str = 'asda';
+
+        // foreach ($members as $member) {;
+        //     $package_validity = Carbon::parse($member->package_validity);
+        //     $currentDate = Carbon::now()->format('Y-m-d');
+
+
+        //     $days_left = $package_validity->diffInDays($currentDate);
+
+        //     if ($member->user->email != null  && env('MAIL_USERNAME') != null) {
+        //         $package_expiring_warning_email = EmailTemplate::where('identifier', 'package_expiring_warning_email')->first();
+        //         if ($package_expiring_warning_email->status == 1) {
+        //             EmailUtility::package_expiring_warning_email($member->user->id, $days_left);
+        //             $str = 'ok';
+        //         } else {
+        //             $str = 'no';
+        //         }
+        //     }
+        // }
+
+
+        // return $str;
 
         $members = User::where('user_type', 'member')
             ->where('approved', 1)
