@@ -20,7 +20,7 @@
 
         @if (get_setting('footer_address') != null && get_setting('footer_website') != null && get_setting('footer_email') != null && get_setting('footer_phones') != null)
             <div class="mb-4">
-                <h4 class="text-uppercase text-primary fs-14 border-bottom border-primary pb-4 mb-4">{{ translate('Contacts') }}</h4>
+                <h4 class="text-uppercase text-primary fs-14 border-bottom border-primary pb-4 mb-4 colorWhite">{{ translate('Contacts') }}</h4>
                 <div class="row opacity-60 no-gutters">
                     @if (get_setting('footer_address') != null)
                         <div class="col-xl col-md-6 mb-4">
@@ -37,26 +37,26 @@
                                 <i class="las la-globe mr-2"></i>
                                 <span>{{ translate('Website') }}</span>
                             </div>
-                            <div>{{ get_setting('footer_website') }}</div>
+                            <div><a href="{{ get_setting('footer_website') }}" target="_blank"></a></div>
                         </div>
                     @endif
                     @if (get_setting('footer_email') != null)
                         <div class="col-xl col-md-6 mb-4">
                             <div class="mb-3 opacity-60">
                                 <i class="las la-envelope mr-2"></i>
-                                <span>{{ translate('Email') }}</span>
+                                <span><a href="mailto:{{ translate('Email') }}">{{ translate('Email') }}</a></span>
                             </div>
-                            <div>{{ get_setting('footer_email') }}</div>
+                            <div></div>
                         </div>
                     @endif
                     @if (get_setting('footer_phones') != null)
                         <div class="col-xl col-md-6 mb-4">
                             <div class="mb-3 opacity-60">
                                 <i class="las la-phone mr-2"></i>
-                                <span>{{ translate('Phone') }}</span>
+                                <span><a href="tel:{{ translate('Phone') }}">{{ translate('Phone') }}</a></span>
                             </div>
                             @foreach (json_decode(get_setting('footer_phones'), true) as $key => $value)
-                                <div>{{ $value }}</div>
+                                <div><a href="tel:{{ $value }}">{{ $value }}</a></div>
                             @endforeach
                         </div>
                     @endif
@@ -67,7 +67,7 @@
         <div class="row no-gutters">
             @if (!empty(get_setting('widget_one_labels')))
                 <div class="col-xl col-md-6 mb-4">
-                    <h4 class="text-uppercase text-primary fs-14 border-bottom border-primary pb-4 mb-4">{{ get_setting('widget_one_title') }}</h4>
+                    <h4 class="text-uppercase text-primary fs-14 border-bottom border-primary pb-4 mb-4 colorWhite">{{ get_setting('widget_one_title') }}</h4>
                     <div>
                         <ul class="list-unstyled">
                             @foreach (json_decode(get_setting('widget_one_labels'), true) as $key => $value)
@@ -82,7 +82,7 @@
 
             @if (!empty(get_setting('widget_two_labels')))
                 <div class="col-xl col-md-6 mb-4">
-                    <h4 class="text-uppercase text-primary fs-14 border-bottom border-primary pb-4 mb-4">{{ get_setting('widget_two_title') }}</h4>
+                    <h4 class="text-uppercase text-primary fs-14 border-bottom border-primary pb-4 mb-4 colorWhite">{{ get_setting('widget_two_title') }}</h4>
                     <div>
                         <ul class="list-unstyled">
                             @foreach (json_decode(get_setting('widget_two_labels'), true) as $key => $value)
@@ -97,7 +97,7 @@
 
             @if (!empty(get_setting('widget_three_labels')))
                 <div class="col-xl col-md-6 mb-4">
-                    <h4 class="text-uppercase text-primary fs-14 border-bottom border-primary pb-4 mb-4">{{ get_setting('widget_three_title') }}</h4>
+                    <h4 class="text-uppercase text-primary fs-14 border-bottom border-primary pb-4 mb-4 colorWhite">{{ get_setting('widget_three_title') }}</h4>
                     <div>
                         <ul class="list-unstyled">
                             @foreach (json_decode(get_setting('widget_three_labels'), true) as $key => $value)
@@ -112,7 +112,7 @@
 
             @if (!empty(get_setting('widget_mobile_app_title')))
                 <div class="col-xl col-md-6 mb-4">
-                    <h4 class="text-uppercase text-primary fs-14 border-bottom border-primary pb-4 mb-4">{{ get_setting('widget_mobile_app_title') }}</h4>
+                    <h4 class="text-uppercase text-primary fs-14 border-bottom border-primary pb-4 mb-4 colorWhite">{{ get_setting('widget_mobile_app_title') }}</h4>
                     <div class="mb-3">
                         <a href="{{ get_setting('footer_play_store_link') }}">
                             <img src="{{ uploaded_asset(get_setting('footer_play_store_img')) }}" height="50">
@@ -127,7 +127,7 @@
             @endif
         </div>
 
-        <div class="border-top border-primary pt-4 pb-7 pb-xl-4">
+        <div class="border-top border-primary pt-4 pb-7 pb-xl-4 colorWhite">
             <div class="row">
                 <div class="col-lg-6">
                     <div class="lh-1">

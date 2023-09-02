@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use Notification;
 use App\Notifications\DbStoreNotification;
 use App\Utility\EmailUtility;
+use Auth;
 use Carbon\Carbon;
 use Kutia\Larafirebase\Facades\Larafirebase;
 
@@ -58,6 +59,10 @@ class RegisterController extends Controller {
      */
 
     public function showRegistrationForm() {
+        if (Auth::check()) {
+            return redirect()->route('home');
+        }
+
         return view('frontend.user_registration');
     }
 
@@ -77,6 +82,11 @@ class RegisterController extends Controller {
      */
     protected function create(array $data) {
         // return $data['date_of_birth'];
+        // if (Carbon::parse(date('Y-m-d', strtotime($data['date_of_birth'])))->age < 18) {
+        //     flash(translate("User must be at least 18 years old to create an account."));
+        //     return back();
+        // }
+
         $approval = get_setting('member_approval_by_admin') == 1 ? 0 : 1;
         if (filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
             $user = User::create([
@@ -154,11 +164,15 @@ class RegisterController extends Controller {
     }
 
     public function register(Request $request) {
+        if (Carbon::parse(date('Y-m-d', strtotime($request->date_of_birth)))->age < 18) {
+            flash(translate("User must be at least 18 years old to create an account."));
+            return back();
+        }
         // return $request->date_of_birth;
         if (filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
             if (User::where('email', $request->email)->first() != null) {
                 flash(translate('Email or Phone already exists.'));
-                // return back()->with('registerError', 'Email or Phone');
+                return back();
             }
         } elseif (User::where('phone', '+' . $request->country_code . $request->phone)->first() != null) {
             flash(translate('Phone already exists.'));
