@@ -38,7 +38,7 @@ class SendMailCron extends Command {
      * @return int
      */
     public function handle() {
-        \Log::info("Cron is working fine!");
+        // \Log::info("Cron is working fine!");
 
         $members = Member::where('package_validity', '>', Carbon::now()->format('Y-m-d'))->get();
 

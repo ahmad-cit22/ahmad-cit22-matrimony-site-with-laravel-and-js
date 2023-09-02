@@ -45,7 +45,7 @@ class HomeController extends Controller {
             ->where('blocked', 0)
             ->where('deactivated', 0);
 
-        if (Auth::user() != null) {
+        if (Auth::user() != null && Auth::user()->user_type == 'member') {
             $premium_members = Member::where('current_package_id', '!=', 1)
                 ->where('package_validity', '>', Carbon::now()->format('Y-m-d'))
                 ->where('gender', '!=', Auth::user()->member->gender);

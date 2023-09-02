@@ -140,7 +140,8 @@
                                     ->where('requested_by', $auth_user->id)
                                     ->first();
                                 $avatar_image = $user->member->gender == 1 ? 'assets/img/avatar-place.png' : 'assets/img/female-avatar-place.png';
-                                $profile_picture_show = show_profile_picture($user);
+                                // $profile_picture_show = show_profile_picture($user);
+                                $profile_picture_show = 1;
                             @endphp
                             <img @if ($profile_picture_show) src="{{ uploaded_asset($user->photo) }}"
                                 @else

@@ -134,6 +134,11 @@
             top: -0px;
             right: -0px;
         }
+
+        .colorWhite {
+            color: #fff !important;
+            border-color: #fff !important;
+        }
     </style>
 
     @if (get_setting('google_analytics_activation') == 1)

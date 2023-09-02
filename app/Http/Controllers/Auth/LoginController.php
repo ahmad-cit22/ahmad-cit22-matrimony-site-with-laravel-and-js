@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Package;
 use App\Models\Member;
 use App\User;
+use Auth;
 use Carbon\Carbon;
 use Socialite;
 use CoreComponentRepository;
@@ -132,6 +133,9 @@ class LoginController extends Controller {
     }
 
     public function showLoginForm() {
+        if (Auth::check()) {
+            return redirect()->route('home');
+        }
         return view('frontend.user_login');
     }
 

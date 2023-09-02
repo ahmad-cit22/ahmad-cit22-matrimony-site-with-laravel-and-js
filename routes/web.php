@@ -232,4 +232,3 @@ Route::post('/dashboard/our-team/member-add', [TeamMemberController::class, 'mem
 Route::get('/dashboard/our-team/member-edit/{id}', [TeamMemberController::class, 'member_edit_page'])->name('admin.edit.member');
 Route::post('/dashboard/our-team/member-update/', [TeamMemberController::class, 'member_update'])->name('admin.member.update');
 Route::get('/dashboard/our-team/member-delete/{id}', [TeamMemberController::class, 'member_delete'])->name('admin.member.delete');
-

@@ -24,7 +24,8 @@
                                             <div class="text-center text-md-left pt-3 pt-md-0">
                                                 @php
                                                     $avatar_image = $user->member->gender == 1 ? 'assets/img/avatar-place.png' : 'assets/img/female-avatar-place.png';
-                                                    $profile_picture_show = show_profile_picture($user);
+                                                    // $profile_picture_show = show_profile_picture($user);
+                                                    $profile_picture_show = 1;
                                                 @endphp
                                                 <img @if ($profile_picture_show) src="{{ uploaded_asset($user->photo) }}"
                                                 @else
