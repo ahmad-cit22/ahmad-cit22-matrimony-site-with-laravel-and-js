@@ -27,7 +27,7 @@
                                                     // $profile_picture_show = show_profile_picture($user);
                                                     $profile_picture_show = 1;
                                                 @endphp
-                                                <img @if ($profile_picture_show) src="{{ uploaded_asset($user->photo) }}"
+                                                <img @if ($profile_picture_show && Auth::check()) src="{{ uploaded_asset($user->photo) }}"
                                                 @else
                                                 src="{{ static_asset($avatar_image) }}" @endif onerror="this.onerror=null;this.src='{{ static_asset($avatar_image) }}';" class="img-fit mw-100 size-150px size-md-250px rounded-circle md-rounded-0">
                                             </div>
@@ -53,7 +53,7 @@
                                                 <table class="w-100 opacity-70 mb-2 fs-12">
                                                     <tr>
                                                         <td class="py-1 w-25">
-                                                            <span>{{ translate('Age') }}</span>
+                                                            <span>Age</span>
                                                         </td>
                                                         <td class="py-1 w-25 fw-400">
                                                             {{ !empty($user->member->birthday) ? \Carbon\Carbon::parse($user->member->birthday)->age : 'Not Entered' }}</td>
@@ -86,7 +86,7 @@
                                                                 {{ \App\Models\MemberLanguage::where('id', $user->member->mothere_tongue)->first()->name }}
                                                             @endif
                                                         </td>
-                                                        <td class="py-1"><span>{{ translate('Marital Status') }}</span>
+                                                        <td class="py-1"><span>Marital Status</span>
                                                         </td>
                                                         <td class="py-1 fw-400">
                                                             @if ($user->member->marital_status_id != null)
@@ -95,7 +95,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="py-1"><span>{{ translate('Location') }}</span></td>
+                                                        <td class="py-1"><span>Location</span></td>
                                                         <td class="py-1 fw-400">
                                                             @php
                                                                 $present_address = \App\Models\Address::where('type', 'present')

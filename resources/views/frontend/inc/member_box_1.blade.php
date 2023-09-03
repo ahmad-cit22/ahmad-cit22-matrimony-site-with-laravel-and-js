@@ -9,10 +9,10 @@
             // $profile_picture_show = show_profile_picture($member);
             $profile_picture_show = 1;
         @endphp
-        <img @if ($profile_picture_show) src="{{ uploaded_asset($member->photo) }}"
+        <img @if ($profile_picture_show && Auth::check()) src="{{ uploaded_asset($member->photo) }}"
 				@else
 					src="{{ static_asset($avatar_image) }}" @endif onerror="this.onerror=null;this.src='{{ static_asset($avatar_image) }}';" class="img-fit mw-100 h-350px">
-        @if (!$profile_picture_show)
+        @if (!$profile_picture_show && !Auth::check())
             <div class="absolute-full d-flex justify-content-center align-items-center bg-soft-dark text-white"><i class="las la-lock la-3x"></i></div>
         @endif
 
