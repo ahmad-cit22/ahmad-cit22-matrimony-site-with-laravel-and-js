@@ -37,26 +37,26 @@
                                 <i class="las la-globe mr-2"></i>
                                 <span>{{ translate('Website') }}</span>
                             </div>
-                            <div><a href="{{ get_setting('footer_website') }}" target="_blank"></a></div>
+                            <div><a class="text-white" href="{{ get_setting('footer_website') }}" target="_blank">{{ get_setting('footer_website') }}</a></div>
                         </div>
                     @endif
                     @if (get_setting('footer_email') != null)
                         <div class="col-xl col-md-6 mb-4">
                             <div class="mb-3 opacity-60">
                                 <i class="las la-envelope mr-2"></i>
-                                <span><a href="mailto:{{ translate('Email') }}">{{ translate('Email') }}</a></span>
+                                <span>{{ translate('Email') }}</span>
                             </div>
-                            <div></div>
+                            <div><a class="text-white" href="{{ get_setting('email_address') }}" target="_blank">{{ get_setting('email_address') }}</a></div>
                         </div>
                     @endif
                     @if (get_setting('footer_phones') != null)
                         <div class="col-xl col-md-6 mb-4">
                             <div class="mb-3 opacity-60">
                                 <i class="las la-phone mr-2"></i>
-                                <span><a href="tel:{{ translate('Phone') }}">{{ translate('Phone') }}</a></span>
+                                <span>{{ translate('Phone') }}</span>
                             </div>
                             @foreach (json_decode(get_setting('footer_phones'), true) as $key => $value)
-                                <div><a href="tel:{{ $value }}">{{ $value }}</a></div>
+                                <div><a class="text-white" href="tel:{{ $value }}">{{ $value }}</a></div>
                             @endforeach
                         </div>
                     @endif

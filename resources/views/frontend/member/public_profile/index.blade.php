@@ -143,10 +143,10 @@
                                 // $profile_picture_show = show_profile_picture($user);
                                 $profile_picture_show = 1;
                             @endphp
-                            <img @if ($profile_picture_show) src="{{ uploaded_asset($user->photo) }}"
+                            <img @if ($profile_picture_show && Auth::check()) src="{{ uploaded_asset($user->photo) }}"
                                 @else
                                 src="{{ static_asset($avatar_image) }}" @endif onerror="this.onerror=null;this.src='{{ static_asset($avatar_image) }}';" class="img-fluid w-100">
-                            @if (!$profile_picture_show)
+                            @if (!$profile_picture_show && !Auth::check())
                                 <div class="absolute-full d-flex justify-content-center align-items-center bg-soft-dark text-white"><i class="las la-lock la-3x"></i></div>
                             @endif
                             @if ($user->photo != null && $user->photo_approved == 1 && $profile_pic_privacy == 'only_me' && ($photo_view_request == null || ($photo_view_request && $photo_view_request->status == 0)))
@@ -442,7 +442,7 @@
                                                                 </td>
                                                             </tr>
                                                             <tr>
-                                                                <td class="py-1 fw-600">{{ translate('Age') }}</td>
+                                                                <td class="py-1 fw-600">Age</td>
                                                                 <td class="py-1">
                                                                     {{ !empty($user->member->birthday) ? \Carbon\Carbon::parse($user->member->birthday)->age : 'Not Entered' }}
                                                                 </td>
@@ -496,7 +496,7 @@
                                                             </tr>
                                                             <tr>
                                                                 <td class="py-1 fw-600">
-                                                                    {{ translate('Marital Status') }}
+                                                                    Marital Status
                                                                 </td>
                                                                 <td class="py-1">
                                                                     {{ !empty($user->member->marital_status->name) ? $user->member->marital_status->name : '' }}
@@ -900,7 +900,7 @@
                                                         <table class="w-100">
                                                             <tbody>
                                                                 <tr>
-                                                                    <th>{{ translate('Mother Tangue') }}</th>
+                                                                    <th>{{ translate('Mother Language') }}</th>
                                                                     <td class="py-1">
                                                                         @if (!empty($user->member->mothere_tongue) && $user->member->mothereTongue != null)
                                                                             {{ $user->member->mothereTongue->name }}
@@ -908,7 +908,7 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <th>{{ translate('Known Languages') }}</th>
+                                                                    <th>{{ translate('Known Language(s)') }}</th>
                                                                     <td class="py-1">
                                                                         @if (!empty($user->member->known_languages))
                                                                             @foreach (json_decode($user->member->known_languages) as $key => $value)

@@ -57,7 +57,7 @@
     </div>
 
     <!-- Email Change -->
-    <div class="card">
+    {{-- <div class="card">
         <div class="card-header">
             <h5 class="mb-0 h6">{{ translate('Change your email') }}</h5>
         </div>
@@ -72,13 +72,13 @@
                         <div class="input-group mb-3">
                             <input type="email" class="form-control" placeholder="{{ translate('Your Email') }}" name="email" value="{{ Auth::user()->email }}" />
                             <div class="input-group-append">
-                                {{-- <button type="button" class="btn btn-primary new-email-verification">
+                                <button type="button" class="btn btn-primary new-email-verification">
                                     <span class="d-none loading">
                                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                         {{ translate('Sending Email...') }}
                                     </span>
                                     <span class="default">{{ translate('Verify') }}</span>
-                                </button> --}}
+                                </button>
                             </div>
                         </div>
                         <div class="form-group mb-0 text-right">
@@ -88,7 +88,7 @@
                 </div>
             </form>
         </div>
-    </div>
+    </div> --}}
 
     <!-- Basic Information -->
     @include('frontend.member.profile.basic_info')
